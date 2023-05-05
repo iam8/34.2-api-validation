@@ -1,13 +1,22 @@
+// Ioana A Mititean
+// Exercise 34.2 - Express Bookstore
+
 /** Common config for bookstore. */
 
+const HOSTNAME = "127.0.0.1";
+const PORT = 3000;
 
 let DB_URI = `postgresql://`;
 
 if (process.env.NODE_ENV === "test") {
-  DB_URI = `${DB_URI}/books-test`;
+    DB_URI = `${DB_URI}/books-test`;
 } else {
-  DB_URI = process.env.DATABASE_URL || `${DB_URI}/books`;
+    DB_URI = process.env.DATABASE_URL || `${DB_URI}/books`;
 }
 
 
-module.exports = { DB_URI };
+module.exports = {
+    HOSTNAME,
+    PORT,
+    DB_URI
+};
