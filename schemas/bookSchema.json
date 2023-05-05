@@ -23,7 +23,7 @@
                 "0691161518"
             ],
             "minLength": 10,
-            "maxLength": 10
+            "maxLength": 13
         },
         "amazon_url": {
             "type": "string",
