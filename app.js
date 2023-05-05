@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 
 // Routes
-const bookRoutes = require("./routes/books");
+const {router: bookRoutes} = require("./routes/books");
 app.use("/books", bookRoutes);
 
 
