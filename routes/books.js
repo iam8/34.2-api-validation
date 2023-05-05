@@ -4,6 +4,7 @@
 /** Routes for bookstore. */
 
 const express = require("express");
+const jsonschema = require("jsonschema");
 const { Book } = require("../models/book");
 
 const router = new express.Router();
