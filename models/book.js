@@ -95,9 +95,9 @@ class Book {
         return result.rows[0];
     }
 
-    /** Update data with matching ID to data, return updated book.
+    /** Update book with matching ISBN to data, return updated book.
     *
-    * {isbn, amazon_url, author, language, pages, publisher, title, year}
+    * data: {amazon_url, author, language, pages, publisher, title, year}
     *
     * => {isbn, amazon_url, author, language, pages, publisher, title, year}
     **/
