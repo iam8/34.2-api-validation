@@ -1,8 +1,13 @@
-/** Server for bookstore. */
+// Ioana A Mititean
+// Exercise 34.2 - Express Bookstore
+
+/** Server startup for bookstore. */
 
 
-const app = require("./app");
+const { app } = require("./app");
+const { HOSTNAME, PORT } = require("./config");
 
-app.listen(3000, () => {
-  console.log(`Server starting on port 3000`);
+
+app.listen(PORT, HOSTNAME, function () {
+    console.log(`Listening on ${HOSTNAME}, port ${PORT}`);
 });
