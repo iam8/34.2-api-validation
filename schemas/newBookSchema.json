@@ -3,7 +3,7 @@
     "$id": "http://example.com/example.json",
     "type": "object",
     "default": {},
-    "title": "Book Schema",
+    "title": "New Book Schema",
     "required": [
         "isbn",
         "amazon_url",
