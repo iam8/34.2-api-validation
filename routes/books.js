@@ -5,7 +5,9 @@
 
 const express = require("express");
 const jsonschema = require("jsonschema");
+
 const { Book } = require("../models/book");
+const bookSchema = require("../schemas/bookSchema.json");
 
 const router = new express.Router();
 
