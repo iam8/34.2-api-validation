@@ -1,14 +1,17 @@
-/** Database config for database. */
+// Ioana A Mititean
+// Exercise 34.2 - Express Bookstore
+
+/** Database config for bookstore. */
 
 
 const { Client } = require("pg");
-const {DB_URI} = require("./config");
+const { DB_URI } = require("./config");
 
 let db = new Client({
-  connectionString: DB_URI
+    connectionString: DB_URI
 });
 
 db.connect();
 
 
-module.exports = db;
+module.exports = { db };
