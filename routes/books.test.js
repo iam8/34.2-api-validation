@@ -98,6 +98,21 @@ describe("POST /books", () => {
         title: 'Test Title 03',
         year: 2003
     };
+
+    test("Adds a valid new book", async () => {
+        const postResp = await request(app)
+            .post("/books")
+            .send(validNewBook);
+
+        expect(postResp.statusCode).toEqual(201);
+        expect(postResp.body).toEqual({
+            book: validNewBook
+        });
+
+        // Check that the new book was indeed added
+        const getResp = await request(app).get(`/books/${validNewBook.isbn}`);
+        expect(getResp.statusCode).toEqual(200);
+    })
 })
 
 describe("PUT /books/:isbn", () => {
