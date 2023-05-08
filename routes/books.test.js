@@ -101,7 +101,7 @@ describe("POST /books", () => {
     };
 
     const fiveInvalidFields = {
-        isbn: 0000000003,
+        isbn: 0,
         amazon_url: 'NOT A VALID URL',
         author: 'Test Author 03',
         language: 'Test Language 03',
@@ -146,6 +146,29 @@ describe("POST /books", () => {
             book: validNewBook
         });
     })
+
+    test("Returns correct response for invalid new book: 1 invalid data field", async () => {
+        const postResp = await request(app)
+            .post("/books")
+            .send(oneInvalidField);
+
+        expect(postResp.statusCode).toEqual(400);
+        expect(postResp.body).toHaveProperty("error");
+        expect(postResp.body.error.message).toHaveLength(1);
+
+        // Check that the new book was not added
+        const getResp = await request(app).get(`/books/${oneInvalidField.isbn}`);
+        expect(getResp.statusCode).toEqual(404);
+    })
+
+    // test("Returns correct response for invalid new book: multiple invalid data fields",
+    // async () => {
+
+    // })
+
+    // test("Returns correct response for invalid new book: missing required fields", async () => {
+
+    // })
 })
 
 describe("PUT /books/:isbn", () => {
