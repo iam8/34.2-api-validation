@@ -102,6 +102,20 @@ describe("PUT /books/:isbn", () => {
         "year": 1900
     }
 
+    test("Correctly updates an existing book with valid new data", async () => {
+        const resp = await request(app)
+            .put(`/books/${testBook1.isbn}`)
+            .send(validUpdatedData);
+
+        const updatedBook = {...validUpdatedData};
+        updatedBook.isbn = testBook1.isbn;
+
+        expect(resp.statusCode).toEqual(200);
+        expect(resp.body).toEqual({
+            book: updatedBook
+        });
+    })
+
     test("Returns status code of 404 if book not found", async () => {
         const badIsbn = "9999999999";
         const resp = await request(app)
