@@ -62,3 +62,27 @@ describe("GET /books", () => {
         });
     })
 })
+
+describe("GET /books/:isbn", () => {
+    test("Gets a single book", async () => {
+        const resp = await request(app).get(`/books/${testBook1.isbn}`);
+
+        expect(resp.statusCode).toEqual(200);
+        expect(resp.body).toEqual({
+            book: testBook1
+        });
+    })
+
+    test("Returns status code of 404 if book not found", async () => {
+        const badIsbn = "9999999999";
+        const resp = await request(app).get(`/books/${badIsbn}`);
+
+        expect(resp.statusCode).toEqual(404);
+        expect(resp.body).toEqual({
+            error: {
+                message: `There is no book with an isbn '${badIsbn}'`,
+                status: 404
+            }
+        });
+    })
+})
