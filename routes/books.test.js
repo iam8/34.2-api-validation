@@ -88,6 +88,36 @@ describe("GET /books/:isbn", () => {
 })
 
 describe("POST /books", () => {
+
+    const oneInvalidField = {
+        isbn: '0000000003',
+        amazon_url: 'NOT A VALID URL',
+        author: 'Test Author 03',
+        language: 'Test Language 03',
+        pages: 300,
+        publisher: 'Test Publisher 03',
+        title: 'Test Title 03',
+        year: 2003
+    };
+
+    const fiveInvalidFields = {
+        isbn: 0000000003,
+        amazon_url: 'NOT A VALID URL',
+        author: 'Test Author 03',
+        language: 'Test Language 03',
+        pages: '300',
+        publisher: 'Test Publisher 03',
+        title: 3.141592,
+        year: 2183
+    };
+
+    const reqFieldsMissing = {
+        amazon_url: 'http://testurl3.com',
+        author: 'Test Author 03',
+        pages: 300,
+        year: 2003
+    };
+
     const validNewBook = {
         isbn: '0000000003',
         amazon_url: 'http://testurl3.com',
