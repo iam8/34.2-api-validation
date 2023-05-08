@@ -11,7 +11,6 @@ const { ExpressError } = require("../expressError");
 const newBookSchema = require("../schemas/newBookSchema.json");
 const updateBookSchema = require("../schemas/updateBookSchema.json");
 
-
 const router = new express.Router();
 
 
