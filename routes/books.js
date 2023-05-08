@@ -7,7 +7,10 @@ const express = require("express");
 const jsonschema = require("jsonschema");
 
 const { Book } = require("../models/book");
+const { ExpressError } = require("../expressError");
 const newBookSchema = require("../schemas/newBookSchema.json");
+const updateBookSchema = require("../schemas/updateBookSchema.json");
+
 
 const router = new express.Router();
 
