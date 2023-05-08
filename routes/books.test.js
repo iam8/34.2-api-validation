@@ -112,6 +112,9 @@ describe("POST /books", () => {
         // Check that the new book was indeed added
         const getResp = await request(app).get(`/books/${validNewBook.isbn}`);
         expect(getResp.statusCode).toEqual(200);
+        expect(getResp.body).toEqual({
+            book: validNewBook
+        });
     })
 })
 
