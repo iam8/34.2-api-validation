@@ -86,3 +86,31 @@ describe("GET /books/:isbn", () => {
         });
     })
 })
+
+describe("DELETE /books/:isbn", () => {
+    test("Deletes an existing book", async () => {
+        const delResp = await request(app).delete(`/books/${testBook1.isbn}`);
+
+        expect(delResp.statusCode).toEqual(200);
+        expect(delResp.body).toEqual({
+            message: "Book deleted"
+        });
+
+        // Check that the book was indeed deleted
+        const getResp = await request(app).get(`/books/${testBook1.isbn}`);
+        expect(getResp.statusCode).toEqual(404);
+    })
+
+    test("Returns status code of 404 if book not found", async () => {
+        const badIsbn = "9999999999";
+        const resp = await request(app).delete(`/books/${badIsbn}`);
+
+        expect(resp.statusCode).toEqual(404);
+        expect(resp.body).toEqual({
+            error: {
+                message: `There is no book with an isbn '${badIsbn}'`,
+                status: 404
+            }
+        });
+    })
+})
