@@ -19,7 +19,7 @@ beforeEach(async () => {
         INSERT INTO books (isbn, amazon_url, author, language, pages, publisher, title, year)
         VALUES
             (
-                '0000000000',
+                '0000000001',
                 'http://testurl1.com',
                 'Test Author 01',
                 'Test Language 01',
@@ -29,7 +29,7 @@ beforeEach(async () => {
                 2000
             ),
             (
-                '0000000001',
+                '0000000002',
                 'http://testurl2.com',
                 'Test Author 02',
                 'Test Language 02',
@@ -88,18 +88,27 @@ describe("GET /books/:isbn", () => {
 })
 
 describe("POST /books", () => {
-
+    const validNewBook = {
+        isbn: '0000000003',
+        amazon_url: 'http://testurl3.com',
+        author: 'Test Author 03',
+        language: 'Test Language 03',
+        pages: 300,
+        publisher: 'Test Publisher 03',
+        title: 'Test Title 03',
+        year: 2003
+    };
 })
 
 describe("PUT /books/:isbn", () => {
     const validUpdatedData = {
-        "amazon_url": "http://updatedurl.com",
-        "author": "Updated Author",
-        "language": "Updated Language",
-        "pages": 1000,
-        "publisher": "Updated Publisher",
-        "title": "Updated Title",
-        "year": 1900
+        amazon_url: "http://updatedurl.com",
+        author: "Updated Author",
+        language: "Updated Language",
+        pages: 1000,
+        publisher: "Updated Publisher",
+        title: "Updated Title",
+        year: 1900
     }
 
     test("Correctly updates an existing book with valid new data", async () => {
