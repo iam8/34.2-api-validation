@@ -64,8 +64,21 @@ router.post("/", async function (req, res, next) {
 /** PUT /[isbn]   bookData => {book: updatedBook}  */
 router.put("/:isbn", async function (req, res, next) {
     try {
+        const validation = jsonschema.validate(req.body, updateBookSchema);
+
+        if (!validation.valid) {
+
+            // Pass validation errors to error handler
+            const errList = validation.errors.map((err) => {
+                return err.stack;
+            })
+
+            throw new ExpressError(errList, 400);
+        }
+
         const book = await Book.update(req.params.isbn, req.body);
         return res.json({ book });
+
     } catch (err) {
         return next(err);
     }
