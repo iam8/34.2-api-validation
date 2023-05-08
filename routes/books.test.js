@@ -54,6 +54,11 @@ afterAll(async () => {
 
 describe("GET /books", () => {
     test("Gets a list of 2 books", async () => {
-        expect(200).toEqual(200);
+        const resp = await request(app).get("/books");
+
+        expect(resp.statusCode).toEqual(200);
+        expect(resp.body).toEqual({
+            books: [testBook1, testBook2]
+        });
     })
 })
