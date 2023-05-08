@@ -87,6 +87,37 @@ describe("GET /books/:isbn", () => {
     })
 })
 
+describe("POST /books", () => {
+
+})
+
+describe("PUT /books/:isbn", () => {
+    const validUpdatedData = {
+        "amazon_url": "http://updatedurl.com",
+        "author": "Updated Author",
+        "language": "Updated Language",
+        "pages": 1000,
+        "publisher": "Updated Publisher",
+        "title": "Updated Title",
+        "year": 1900
+    }
+
+    test("Returns status code of 404 if book not found", async () => {
+        const badIsbn = "9999999999";
+        const resp = await request(app)
+            .put(`/books/${badIsbn}`)
+            .send(validUpdatedData);
+
+        expect(resp.statusCode).toEqual(404);
+        expect(resp.body).toEqual({
+            error: {
+                message: `There is no book with an isbn '${badIsbn}'`,
+                status: 404
+            }
+        });
+    })
+})
+
 describe("DELETE /books/:isbn", () => {
     test("Deletes an existing book", async () => {
         const delResp = await request(app).delete(`/books/${testBook1.isbn}`);
