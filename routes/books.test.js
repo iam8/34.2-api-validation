@@ -192,6 +192,34 @@ describe("POST /books", () => {
 })
 
 describe("PUT /books/:isbn", () => {
+
+    const oneInvalidField = {
+        amazon_url: 'NOT A VALID URL',
+        author: 'Updated Author',
+        language: 'Updated Language',
+        pages: 300,
+        publisher: 'Updated Publisher',
+        title: 'Updated Title',
+        year: 2003
+    };
+
+    const fourInvalidFields = {
+        amazon_url: 'NOT A VALID URL',
+        author: 'Updated Author',
+        language: 'Updated Language',
+        pages: '300',
+        publisher: 'Updated Publisher',
+        title: 3.141592,
+        year: 2183
+    };
+
+    const reqFieldsMissing = {
+        amazon_url: 'http://updatedurl.com',
+        author: 'Updated Author',
+        pages: 300,
+        year: 2003
+    };
+
     const validUpdatedData = {
         amazon_url: "http://updatedurl.com",
         author: "Updated Author",
@@ -213,6 +241,65 @@ describe("PUT /books/:isbn", () => {
         expect(resp.statusCode).toEqual(200);
         expect(resp.body).toEqual({
             book: updatedBook
+        });
+
+        // Check that book was indeed updated
+        const getResp = await request(app).get(`/books/${testBook1.isbn}`);
+        expect(getResp.statusCode).toEqual(200);
+        expect(getResp.body).toEqual({
+            book: updatedBook
+        });
+    })
+
+    test("Returns correct response for invalid book data: 1 invalid data field", async () => {
+        const postResp = await request(app)
+            .put(`/books/${testBook1.isbn}`)
+            .send(oneInvalidField);
+
+        expect(postResp.statusCode).toEqual(400);
+        expect(postResp.body).toHaveProperty("error");
+        expect(postResp.body.error.message).toHaveLength(1);
+
+        // Check that book was not changed
+        const getResp = await request(app).get(`/books/${testBook1.isbn}`);
+        expect(getResp.statusCode).toEqual(200);
+        expect(getResp.body).toEqual({
+            book: testBook1
+        });
+    })
+
+    test("Returns correct response for invalid book data: multiple invalid data fields",
+    async () => {
+        const postResp = await request(app)
+            .put(`/books/${testBook1.isbn}`)
+            .send(fourInvalidFields);
+
+        expect(postResp.statusCode).toEqual(400);
+        expect(postResp.body).toHaveProperty("error");
+        expect(postResp.body.error.message).toHaveLength(4);
+
+        // Check that book was not changed
+        const getResp = await request(app).get(`/books/${testBook1.isbn}`);
+        expect(getResp.statusCode).toEqual(200);
+        expect(getResp.body).toEqual({
+            book: testBook1
+        });
+    })
+
+    test("Returns correct response for invalid book data: missing required fields", async () => {
+        const postResp = await request(app)
+            .put(`/books/${testBook1.isbn}`)
+            .send(reqFieldsMissing);
+
+        expect(postResp.statusCode).toEqual(400);
+        expect(postResp.body).toHaveProperty("error");
+        expect(postResp.body.error.message).toHaveLength(3);
+
+        // Check that book was not changed
+        const getResp = await request(app).get(`/books/${testBook1.isbn}`);
+        expect(getResp.statusCode).toEqual(200);
+        expect(getResp.body).toEqual({
+            book: testBook1
         });
     })
 
