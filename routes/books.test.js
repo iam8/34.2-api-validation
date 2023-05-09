@@ -161,14 +161,34 @@ describe("POST /books", () => {
         expect(getResp.statusCode).toEqual(404);
     })
 
-    // test("Returns correct response for invalid new book: multiple invalid data fields",
-    // async () => {
+    test("Returns correct response for invalid new book: multiple invalid data fields",
+    async () => {
+        const postResp = await request(app)
+            .post("/books")
+            .send(fiveInvalidFields);
 
-    // })
+        expect(postResp.statusCode).toEqual(400);
+        expect(postResp.body).toHaveProperty("error");
+        expect(postResp.body.error.message).toHaveLength(5);
 
-    // test("Returns correct response for invalid new book: missing required fields", async () => {
+        // Check that the new book was not added
+        const getResp = await request(app).get(`/books/${fiveInvalidFields.isbn}`);
+        expect(getResp.statusCode).toEqual(404);
+    })
 
-    // })
+    test("Returns correct response for invalid new book: missing required fields", async () => {
+        const postResp = await request(app)
+            .post("/books")
+            .send(reqFieldsMissing);
+
+        expect(postResp.statusCode).toEqual(400);
+        expect(postResp.body).toHaveProperty("error");
+        expect(postResp.body.error.message).toHaveLength(4);
+
+        // Check that the new book was not added
+        const getResp = await request(app).get(`/books/${reqFieldsMissing.isbn}`);
+        expect(getResp.statusCode).toEqual(404);
+    })
 })
 
 describe("PUT /books/:isbn", () => {
